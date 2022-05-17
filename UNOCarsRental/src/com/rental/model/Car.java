@@ -6,16 +6,10 @@ import java.util.List;
 import com.rental.filter.Criteria;
 import com.rental.model.entity.RentingDates;
 
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import lombok.EqualsAndHashCode.Exclude;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
 import lombok.ToString;
 
 @Getter
@@ -48,6 +42,12 @@ public class Car {
 		}
 	}
 
+	/**
+	 * Checks whether this car is available for booking or not,based on the criteria.
+	 * 
+	 * @param criteria
+	 * @return 
+	 */
 	public boolean isMatching(Criteria criteria)
 	{
 		boolean isMatched = true;

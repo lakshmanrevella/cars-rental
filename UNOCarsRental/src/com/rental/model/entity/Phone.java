@@ -12,6 +12,15 @@ public class Phone {
 
 	private final String number;
 
+	/**
+	 * Valid phone numbers conditions:
+	 * 1. Length should be 10.
+	 * 2. 1st number should be in between 6 - 9.
+	 * 3. Next 9 numbers can be anything.
+	 * 4. Only numbers are allowed.
+	 * 
+	 * @param number
+	 */
 	public Phone(String number)
 	{
 		validate(number);

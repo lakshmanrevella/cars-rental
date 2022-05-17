@@ -1,15 +1,9 @@
 package com.rental.datamanagers;
 
-import java.net.URI;
 import java.time.temporal.ChronoUnit;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
-
-import com.rental.datamanagers.BookingsManager;
-import com.rental.datamanagers.CarsManager;
-import com.rental.datamanagers.UsersManager;
 import com.rental.filter.Criteria;
 import com.rental.model.Booking;
 import com.rental.model.Car;
@@ -18,6 +12,13 @@ import com.rental.model.entity.RentingDates;
 
 import lombok.NonNull;
 
+/**
+ * 
+ * All the rental booking operations can be communicated to the backend through this class.
+ * 
+ * @author lakshman-3231
+ *
+ */
 public class RentalService {
 
 	private CarsManager carManager ;
@@ -46,13 +47,14 @@ public class RentalService {
 		return carManager.filtercars(condition);
 
 	}
-	
-	public BookingsManager getBookingsManager()
-	{
-		return bookingsManager;
-	}
 
-	private Map<String,Long> estimatedPrice(List<Car> cars,RentingDates bookDates)
+	/**
+	 * If front-end needs an option to get estimated price for all cars between given date range, this api can be used.
+	 * @param cars
+	 * @param bookDates
+	 * @return
+	 */
+	public Map<String,Long> estimatedPrice(List<Car> cars,RentingDates bookDates)
 	{
 		Map<String,Long> map = new HashMap<String, Long>();
 
@@ -67,6 +69,12 @@ public class RentalService {
 		return map;
 	}
 	
+	/**
+	 * calculates estimated booking price for given car over specified dates. 
+	 * @param carId
+	 * @param bookDates
+	 * @return estimated booking price for given car over specified dates. 
+	 */
 	public int estimatedBookingPrice(@NonNull String carId,@NonNull RentingDates bookDates)
 	{
 		Car car = carManager.getCar(carId);
@@ -76,28 +84,21 @@ public class RentalService {
 		return car.getPricePerDay()*multiplicationFactor;
 	}
 
+	/**
+	 * This api takes cares of entire booking process. Handles payments as well.
+	 * By default payments is disabled, to enable set System property 'enable.payment.gateway' to 'true'.
+	 * @param booking
+	 */
 	public void bookCar(Booking booking)
 	{
 		bookingsManager.createBooking(booking);
 	}
 
-//	//TO-DO
-//	public void pay()
-//	{
-//		try 
-//		{
-//			URI uri= new URI("http://localhost:8080/UNOCarsRental/");
-//			java.awt.Desktop.getDesktop().browse(uri);
-//			System.out.println("Web page opened in browser");
-//
-//		} 
-//		catch(Exception e) 
-//		{
-//
-//			e.printStackTrace();
-//		}
-//	}
-
+	/**
+	 * Takes care of booking cancellation
+	 * @param bookingId
+	 * @return true for successful cancellation, else false.
+	 */
 	public boolean cancelBooking(String bookingId)
 	{
 		return bookingsManager.cancelBooking(bookingId);

@@ -13,6 +13,12 @@ import javax.servlet.http.*;
 import com.paypal.api.payments.*;
 import com.paypal.base.rest.PayPalRESTException;
 
+/**
+ * 
+ * Deals with payment bank transaction and acknowledges the transaction with receipt.
+ * @author lakshman
+ *
+ */
 //@WebServlet("/execute_payment")
 public class ExecutePaymentServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;

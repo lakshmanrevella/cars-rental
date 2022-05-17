@@ -25,16 +25,14 @@ import com.paypal.base.rest.PayPalRESTException;
 
 public class PaymentServices {
 	
-	
+	/**
+	 * 
+	 * ID and SECRET keys are must to get connected to the merchant account.
+	 * These belongs to a carrental app created for development purpose in sandbox.paypal developer account.
+	 */
 	private static final String CLIENT_ID = "ATBKWpU3h8PP7gOPEUrKAAH2BJ8eNqi9tJzlahDvFm4VlvUXi9dDMSMYllTD3YbUCXys3D1-bdfjiPA8";
 	private static final String CLIENT_SECRET = "EDK-Ue1YcviebtPujjpVQZ76u34yPwSK_RePwTA26LrUoo6mbLhZte9vOhHkH7QDvPb6BBaGtJs0oU5p";
 
-	//Not-Working -Mine1
-//	private static final String CLIENT_ID = "AZeuAkHRZoeiJ1M6R1vagz8kiyOwvhEgUL-rZLrVS9KlpEAbHY6rDPWJgCjRNakR_cCaovHdOMBu1Rxe";
-//	private static final String CLIENT_SECRET = "ELoVLpbDJCWTO-7CnfZ9J7G_RIlejbu2YuLPhnHZ0P-ouqtKW79Lu1zAqAkAnD17vf2tgSPMNRflE56a";
-//	
-//	private static final String CLIENT_ID = "AeWpNhJLY_mioNSgx3ui7MWuVC6EMB9Qdt3zHH0T5s6EUC9xRn-cYG1PHsvDjY6WPqPtCYCpzgkj_EE7";
-//	private static final String CLIENT_SECRET = "EC0FUhda46ekpTd865QRvYr17zG60iTH6ycr1K8n1K_DFbrfUrkqLg4SVuvKZI2SdVol1u9rpdXtkQdz";
 	private static final String MODE = "sandbox";
 	
 
@@ -56,19 +54,23 @@ public class PaymentServices {
 		Payment approvedPayment = requestPayment.create(apiContext);
 		
 
-		System.out.println("=== CREATED PAYMENT: ====");
+		System.out.println("------------------ CREATED PAYMENT:----------------------");
 		System.out.println(approvedPayment);
 
-		System.out.println( "  Coming Here ");
 		return getApprovalLink(approvedPayment);
 
 	}
 	
 	private Payer getPayerInformation() {
+		
 		Payer payer = new Payer();
 		payer.setPaymentMethod("paypal");
 		
 		PayerInfo payerInfo = new PayerInfo();
+		
+		/**
+		 * Feeding Static Data for testing purpose.
+		 */
 		payerInfo.setFirstName("Lakshman")
 				 .setLastName("Revella")
 				 .setEmail("lakshman.revella@gmail.com");
@@ -79,6 +81,10 @@ public class PaymentServices {
 	}
 	
 	private RedirectUrls getRedirectURLs() {
+		
+		/**
+		 * These urls need to be modified if the project name changes.
+		 */
 		RedirectUrls redirectUrls = new RedirectUrls();
 		redirectUrls.setCancelUrl("http://localhost:8080/UNOCarsRental/cancel.jsp");
 		redirectUrls.setReturnUrl("http://localhost:8080/UNOCarsRental/review_payment");
@@ -89,10 +95,6 @@ public class PaymentServices {
 	private List<Transaction> getTransactionInformation(OrderDetail orderDetail) {
 		Details details = new Details();
 		
-//		String subtotal=String.format("%.2f", orderDetail.subtotal());
-//		String total = String.format("%.2f", orderDetail.total());
-//		String tax = String.format("%.2f", orderDetail.tax());
-//		
 		String subtotal=String.valueOf(orderDetail.subtotal());
 		String total = String.valueOf(orderDetail.total());
 		String tax = String.valueOf( orderDetail.tax());
@@ -108,11 +110,6 @@ public class PaymentServices {
 		Transaction transaction = new Transaction();
 		transaction.setAmount(amount);
 		transaction.setDescription(orderDetail.carType());
-		
-		LocalDateTime id = LocalDateTime.now();
-		String refId = id.toString().replace("-", "").replace(":", "").replace("T", "").replace(".", "");
-		transaction.setReferenceId(refId);
-		transaction.setPurchaseUnitReferenceId(refId);
 		
 		ItemList itemList = new ItemList();
 		List<Item> items = new ArrayList<>();

@@ -1,7 +1,5 @@
 package com.rental.exceptions;
 
-import com.rental.model.entity.RentingDates;
-
 public class InvalidRentingDatesException extends RuntimeException
 {
 	private String start;

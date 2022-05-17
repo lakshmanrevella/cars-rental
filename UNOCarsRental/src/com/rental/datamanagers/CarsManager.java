@@ -12,31 +12,36 @@ import com.rental.filter.Criteria;
 import com.rental.model.Car;
 import com.rental.model.entity.RentingDates;
 
+/**
+ * Used to manage cars.
+ * 
+ * @author lakshman
+ */
 public class CarsManager {
 
-	private HashMap<String,Car> map = new HashMap<>();
+	private HashMap<String,Car> carIdVsCar = new HashMap<>();
 
 	private HashSet<String> bookedCars = new HashSet<String>();
 
 	protected void addCar(Car car)
 	{
 		String key = car.getCarId();
-		if(map.containsKey(key))
+		if(carIdVsCar.containsKey(key))
 		{
 			throw new CarAlreadyRegisteredException(key);
 		}
-		map.put(key, car);
+		carIdVsCar.put(key, car);
 	}
 
 	protected List<Car> filtercars(Criteria condition) 
 	{
-		return map.values().stream().filter(c->c.isMatching(condition)).collect(Collectors.toList());
+		return carIdVsCar.values().stream().filter(c->c.isMatching(condition)).collect(Collectors.toList());
 	}
 
 	protected void addRentedDate(String carId, RentingDates bookDate)
 	{
 		validateCarId(carId);
-		map.get(carId).addBookedDate(bookDate);
+		carIdVsCar.get(carId).addBookedDate(bookDate);
 		bookedCars.add(carId);
 	}
 
@@ -44,23 +49,29 @@ public class CarsManager {
 	protected void removeRentedDate(String carId, RentingDates bookDate)
 	{
 		validateCarId(carId);
-		map.get(carId).removeBookedDate(bookDate);
+		carIdVsCar.get(carId).removeBookedDate(bookDate);
 	}
 
 	protected Car getCar(String carId)
 	{
 		validateCarId(carId);
-		return map.get(carId);
+		return carIdVsCar.get(carId);
 	}
 
 	private void validateCarId(String carId)
 	{
-		if(!map.containsKey(carId))
+		if(!carIdVsCar.containsKey(carId))
 		{
 			throw new CarNotFoundException(carId);
 		}
 	}
 
+	/**
+	 * checks whether booking for specified car is possible or not.
+	 * @param carId
+	 * @param bookDates
+	 * @return
+	 */
 	protected boolean isBookingValid(String carId,RentingDates bookDates)
 	{
 		return getCar(carId).isMatching(Criteria.builder().bookDates(bookDates).build());
@@ -68,7 +79,7 @@ public class CarsManager {
 
 	protected List<String> getCarIdsList()
 	{
-		return map.keySet().stream().collect(Collectors.toList());
+		return carIdVsCar.keySet().stream().collect(Collectors.toList());
 	}
 
 	protected List<String> getBookedCarsIdList()

@@ -12,29 +12,37 @@ import com.rental.model.User;
 
 import lombok.NonNull;
 
+/**
+ * 
+ * Manages users
+ * 
+ * @author lakshman
+ *
+ */
 public class UsersManager {
 
-	private Map<String,User> map = new HashMap<>();
+	
+	private Map<String,User> userIdVsUser = new HashMap<>();
 	private Map<String,List<String>> userVsBookings = new HashMap<>();
 	
 	protected void createUser(@NonNull final User user)
 	{
 		String key = user.getUserId();
-		if(map.containsKey(key))
+		if(userIdVsUser.containsKey(key))
 		{
 			throw new UserAlreadyRegisteredException(key);
 		}
-		map.put(user.getUserId(), user);
+		userIdVsUser.put(user.getUserId(), user);
 	}
 	
 	
 	protected User getUser(String userId)
 	{
-		if(!map.containsKey(userId))
+		if(!userIdVsUser.containsKey(userId))
 		{
 			throw new UserNotFoundException(userId);
 		}
-		return map.get(userId);
+		return userIdVsUser.get(userId);
 	}
 
 
@@ -61,6 +69,6 @@ public class UsersManager {
 	
 	protected List<String> getUserIdsList()
 	{
-		return map.keySet().stream().collect(Collectors.toList());
+		return userIdVsUser.keySet().stream().collect(Collectors.toList());
 	}
 }

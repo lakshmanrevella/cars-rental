@@ -13,6 +13,11 @@ import com.rental.strategy.CancellationStrategy;
 import lombok.Getter;
 import lombok.NonNull;
 
+/**
+ * Used to manage car rental bookings.
+ * @author lakshman
+ *
+ */
 public class BookingsManager {
 
 	@NonNull
@@ -34,6 +39,13 @@ public class BookingsManager {
 		this.cancelStrategy = cancelStrategy;
 	}
 
+	/**
+	 * 
+	 * Used to proceed with booking, 
+	 * control will be redirected to payment gateway if the system property 'enable.payment.gateway' is set to true.
+	 * (Property is introduced to help with testing. Refer Client.java)
+	 * @param booking - Booking details
+	 */
 	protected void createBooking(Booking booking)
 	{
 		if(bookings.containsKey(booking.bookingId()))
@@ -45,10 +57,6 @@ public class BookingsManager {
 		{
 			throw new CarNotAvailableException(booking.carId(),booking.rentedDate().startDate(),booking.rentedDate().endDate());
 		}
-
-		userManager.addUserBooking(booking.userId(),booking.bookingId());
-		carManager.addRentedDate(booking.carId(), booking.rentedDate());
-		bookings.put(booking.bookingId(), booking);
 
 		if(Boolean.getBoolean("enable.payment.gateway"))
 		{
@@ -65,6 +73,11 @@ public class BookingsManager {
 				e.printStackTrace();
 			}
 		}
+		
+		userManager.addUserBooking(booking.userId(),booking.bookingId());
+		carManager.addRentedDate(booking.carId(), booking.rentedDate());
+		bookings.put(booking.bookingId(), booking);
+		
 	}
 
 	/**
