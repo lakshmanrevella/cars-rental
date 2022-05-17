@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<web-app>  
+ ....  
+  
+  <welcome-file-list>  
+   <welcome-file>checkout.html</welcome-file>  
+  </welcome-file-list>  
+  
+<!-- web-app version="3.0" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee                                 http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"-->
+    <servlet>
+        <servlet-name>Authorize</servlet-name>
+        <servlet-class>com.rental.payment.AuthorizePaymentServlet</servlet-class>
+    </servlet>
+    
+    <servlet>
+        <servlet-name>Execute</servlet-name>
+        <servlet-class>com.rental.payment.ExecutePaymentServlet</servlet-class>
+    </servlet>
+    
+    <servlet>
+        <servlet-name>Review</servlet-name>
+        <servlet-class>com.rental.payment.ReviewPaymentServlet</servlet-class>
+    </servlet>
+    
+    
+    <servlet-mapping>
+        <servlet-name>Authorize</servlet-name>
+        <url-pattern>/authorize_payment</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>Execute</servlet-name>
+        <url-pattern>/execute_payment</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Review</servlet-name>
+        <url-pattern>/review_payment</url-pattern>
+    </servlet-mapping>
+    
+  
+  
+</web-app>  
