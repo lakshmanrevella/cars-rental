@@ -1,0 +1,57 @@
+Created users : user1, user2, user7, user5, user6, user3, user4, 
+-----------------------------------------------------
+CREATED CARS : 
+
+car2->Car(carId=car2, registrationNumber=TN19AL3231, color=Black, type=XL, seatingCapactity=6, pricePerDay=1000, bookedDates=[])
+car3->Car(carId=car3, registrationNumber=TN19AL4567, color=Red, type=SUV, seatingCapactity=5, pricePerDay=2000, bookedDates=[])
+car1->Car(carId=car1, registrationNumber=TN19AL0922, color=Black, type=SUV, seatingCapactity=6, pricePerDay=900, bookedDates=[])
+car6->Car(carId=car6, registrationNumber=TN19AL1234, color=Red, type=XL, seatingCapactity=5, pricePerDay=1500, bookedDates=[])
+car7->Car(carId=car7, registrationNumber=TN19AL9101, color=Red, type=Mini, seatingCapactity=6, pricePerDay=900, bookedDates=[])
+car4->Car(carId=car4, registrationNumber=TN19AL7321, color=Blue, type=SUV, seatingCapactity=6, pricePerDay=1900, bookedDates=[])
+car5->Car(carId=car5, registrationNumber=TN19AL8421, color=White, type=Mini, seatingCapactity=6, pricePerDay=900, bookedDates=[])
+-----------------------------------------------------
+Filtering Cars having RED color  : car3, car6, car7, 
+Filtering Cars having XL model    : car2, car6, 
+Filtering Cars charging price over Rs 2000perday   : car3, 
+Filtering Cars having price between 1200 & 2000 and seating capacity 5   : car3, car6, 
+-------------------------------------------------------------------------------------------
+Cabs are booked as below :
+
+car2 -> [2022-05-14T08:09:10 - 2022-05-16T08:09:10, 2022-05-17T08:09:10 - 2022-05-19T08:09:10]
+car3 -> [2022-05-15T08:09:10 - 2022-05-20T08:09:10]
+car1 -> [2022-05-10T08:09:10 - 2022-05-13T08:09:10]
+-------------------------------------------------------------------------------------------
+ Trying to book car2 on dates that it is already occupied !
+
+EXCEPTION THROWN & CAUGHT
+Car=car2 is not available for this booking date :  [2022-05-16T08:09:10 - 2022-05-17T08:09:10]
+-------------------------------------------------------------------------------------------
+Filter cars available for booking between 10 May to 13 May   : 
+
+car3, car6, car7, car4, car5, 
+---------------------------------Booking Cancellation cases----------------------------------------------------------
+CASE1 (> 24 hours):
+
+Booking successful : Booking(bookingId=booking6, userId=user5, carId=car6, rentedDate=2022-05-19T08:09:10 - 2022-05-21T08:09:10, amountChargable=1500)
+TRYING TO CANCEL ABOVE BOOKING 
+    Car BookedDates before cancellation : [2022-05-19T08:09:10 - 2022-05-21T08:09:10]
+     Cancellation status : SUCCESS
+    Car BookedDates after cancellation : []
+
+CASE2 (< 24 hours):
+
+Booking successful : Booking(bookingId=booking7, userId=user5, carId=car5, rentedDate=2022-05-16T08:09:10 - 2022-05-26T08:09:10, amountChargable=900)
+TRYING TO CANCEL ABOVE BOOKING 
+    Car BookedDates before cancellation : [2022-05-16T08:09:10 - 2022-05-26T08:09:10]
+     Cancellation status : FAILURE
+    Car BookedDates after cancellation : [2022-05-16T08:09:10 - 2022-05-26T08:09:10]
+-------------------------------------------------------------------------------------------
+ 
+ ######################## UNCOMMENT BELOW CODE TO CHECK PAYMENT INTEGRATION BEHAVIOUR ######################### 
+
+
+
+
+
+
+
